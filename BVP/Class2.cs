@@ -23,6 +23,7 @@ namespace BVP
         {
             get { return A; }
             set { A = value; }
+        }
         public Vector()
         {
 
