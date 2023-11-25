@@ -30,16 +30,23 @@ namespace EulerVector
 			get{return gamma}
 			set{gamma = value}
 		}
-			
+
+		//This just initialises the object
 		public LV()
 		{
 		}
+
+        	//method is intended to model the interaction between two species.
 		public Vector LVFunc(Vector v, double t)
-		{//x is v[0] and y is v[1]
-			//This is our lotka voltera formula
+		{
+		//x is v[0] and y is v[1]
 			Vector tmp = new Vector(v.Size);
+            	// This represents the rate of change of the first species (prey).
 			tmp[0] = alpha * v[0] - beta * v[0] * v[1];
+		// This represents the rate of change of the second species (predator).
 			tmp[1]  = delta * v[0]*v[1] -gamma *v[1];
+
+			//Give us back the the 2 rates of change in a vector
 			return tmp;
 		}
 	}
