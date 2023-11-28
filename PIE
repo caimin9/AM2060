@@ -1,0 +1,5 @@
+            double pi = 3.14159;
+            double d = 2 * pi;
+            double my_pi = Math.Round(pi, 2);
+            Console.WriteLine($"{d,-10:F2}",my_pi);
+            Console.WriteLine($"\"{d,-10:F2}\"");
