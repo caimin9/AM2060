@@ -1,48 +1,45 @@
-using ClosedXML.Excel;
 using System;
 using System.IO;
 
-public void CreateExcel(string path)
-{
-    try
-    {
-        // Check if the file already exists
-        if (File.Exists(path))
+        public void CreateCSV(string path)
         {
-            // Handle the scenario, e.g., inform the user or generate a new filename
-            Console.WriteLine("File already exists. Creating a new file with a timestamp.");
-            path = Path.GetDirectoryName(path) + Path.DirectorySeparatorChar + 
-                   Path.GetFileNameWithoutExtension(path) + 
-                   DateTime.Now.ToString("yyyyMMddHHmmss") + 
-                   Path.GetExtension(path);
-        }
-
-        using (var workbook = new XLWorkbook())
-        {
-            var worksheet = workbook.Worksheets.Add("SIR Model Data");
-            for (int i = 0; i < results.GetLength(0); i++)
+            try
             {
-                for (int j = 0; j < results.GetLength(1); j++)
+                // Check if the file already exists
+                if (File.Exists(path))
                 {
-                    worksheet.Cell(i + 1, j + 1).Value = results[i, j];
+                    Console.WriteLine("File already exists. Overwriting.");
                 }
+
+                // Create a new file or overwrite the existing one
+                using (StreamWriter sw = new StreamWriter(path, false))
+                {
+                    for (int i = 0; i < results.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < results.GetLength(1); j++)
+                        {
+                            sw.Write(results[i, j].ToString("F3"));
+                            if (j < results.GetLength(1) - 1)
+                            {
+                                sw.Write(", ");
+                            }
+                        }
+                        sw.WriteLine();
+                    }
+                }
+
+                Console.WriteLine($"CSV file created successfully at {path}");
             }
-
-            workbook.SaveAs(path);
+            catch (UnauthorizedAccessException)
+            {
+                Console.WriteLine("Error: Access to the path is denied.");
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("Error: The specified path is invalid.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
         }
-
-        Console.WriteLine($"Excel file created successfully at {path}");
-    }
-    catch (UnauthorizedAccessException)
-    {
-        Console.WriteLine("Error: Access to the path is denied.");
-    }
-    catch (DirectoryNotFoundException)
-    {
-        Console.WriteLine("Error: The specified path is invalid.");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"An error occurred: {ex.Message}");
-    }
-}
