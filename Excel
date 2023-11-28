@@ -1,3 +1,5 @@
+//His method
+
 double[,] datatosave = new double[5, 2] { {1,1 }, {2,4 }, {3,9 }, {4,16 }, {5,25 } };
 StreamWriter sw = new StreamWriter("C:\\Users\\km\\source\\data.csv");
 int i = 0;
@@ -7,3 +9,26 @@ int i = 0;
        sw.WriteLine("{0:F3}, {1:F3}", datatosave[i,0], datatosave[i, 1]);
   }
  sw.Close();
+
+//My method
+            public void Excel(string path,bool append)
+         {
+            using (StreamWriter sw = new StreamWriter(path,append))
+            {
+                for (int i = 0; i < results.GetLength(0); i++)
+                {
+                    for (int j = 0; j < results.GetLength(1); j++)
+                    {
+                        sw.Write(results[i, j].ToString("F3"));
+                        if (j < results.GetLength(1) - 1)
+                        {
+                            sw.Write(", ");
+                        }
+                    }
+                    sw.WriteLine();
+                }
+            }
+}
+
+//true if append data, false if replace data
+//e.Excel("path",true or false)
